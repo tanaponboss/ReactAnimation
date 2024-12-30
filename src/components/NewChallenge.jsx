@@ -1,9 +1,9 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState } from "react";
 
-import { ChallengesContext } from '../store/challenges-context.jsx';
-import Modal from './Modal.jsx';
-import images from '../assets/images.js';
-import { motion } from 'framer-motion';
+import { ChallengesContext } from "../store/challenges-context.jsx";
+import Modal from "./Modal.jsx";
+import images from "../assets/images.js";
+import { motion } from "framer-motion";
 
 export default function NewChallenge({ onDone }) {
   const title = useRef();
@@ -57,26 +57,30 @@ export default function NewChallenge({ onDone }) {
           <input ref={deadline} type="date" name="deadline" id="deadline" />
         </p>
 
-        <ul id="new-challenge-images">
+        <motion.ul
+          id="new-challenge-images"
+          variants={{ visible: { transition: { staggerChildren: 0.05 } } }} //delay between each child (image)
+        >
           {images.map((image) => (
             //we dont have to define animate here becuase its parent has already defined it in Modal.jsx.
             //We only need to define the variants here.
-            <motion.li 
-              variants={
-                {
-                  hidden: { opacity: 0, scale: 0.5 },
-                  visible: { opacity: 1, scale: 1,  transition:{ type: 'spring'} },
-                }
-              }
-             
+            <motion.li
+              variants={{
+                hidden: { opacity: 0, scale: 0.5 },
+                visible: {
+                  opacity: 1,
+                  scale: 1,
+                  transition: { type: "spring" },
+                },
+              }}
               key={image.alt}
               onClick={() => handleSelectImage(image)}
-              className={selectedImage === image ? 'selected' : undefined}
+              className={selectedImage === image ? "selected" : undefined}
             >
               <img {...image} />
             </motion.li>
           ))}
-        </ul>
+        </motion.ul>
 
         <p className="new-challenge-actions">
           <button type="button" onClick={onDone}>
