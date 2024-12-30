@@ -3,6 +3,7 @@ import { useContext, useRef, useState } from 'react';
 import { ChallengesContext } from '../store/challenges-context.jsx';
 import Modal from './Modal.jsx';
 import images from '../assets/images.js';
+import { motion } from 'framer-motion';
 
 export default function NewChallenge({ onDone }) {
   const title = useRef();
@@ -58,13 +59,22 @@ export default function NewChallenge({ onDone }) {
 
         <ul id="new-challenge-images">
           {images.map((image) => (
-            <li
+            //we dont have to define animate here becuase its parent has already defined it in Modal.jsx.
+            //We only need to define the variants here.
+            <motion.li 
+              variants={
+                {
+                  hidden: { opacity: 0, scale: 0.5 },
+                  visible: { opacity: 1, scale: 1,  transition:{ type: 'spring'} },
+                }
+              }
+             
               key={image.alt}
               onClick={() => handleSelectImage(image)}
               className={selectedImage === image ? 'selected' : undefined}
             >
               <img {...image} />
-            </li>
+            </motion.li>
           ))}
         </ul>
 
